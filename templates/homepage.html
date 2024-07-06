@@ -1,0 +1,38 @@
+<head>
+    <title>Threat Reputation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div class="flex w-full h-16 bg-green-700">
+        <div class="flex w-1/5 h-full items-center justify-center"><a href="/" class="text-white text-2xl">Threat Reputation Tracker</a></div>
+        <div class="flex flex-row-reverse w-4/5 h-full items-center content-right gap-x-6 mr-8">
+            <input class="w-1/4 h-3/5 rounded-md" type="search" name="search" id="search">
+            <button class="bg-red-600 rounded border-2 border-white text-white py-2 px-4 hover:bg-green-600" data-open-modal>+ Add New Threat</button>
+        </div>
+    </div>
+    <dialog data-modal class="w-2/5 h-96">
+        <div class="flex flex-col content-center flex-grow flex-nowrap items-center mt-0.5 h-fill gap-y-3">
+            <h1 class="text-3xl font-semibold">Add New Threat</h1>
+            <form class="w-4/5 h-4/5">
+                <input class="block h-10 w-full border-2 border-gray-500" type="text" name="filename" id="filename">
+                <input type="text" name="filehash" id="filehash">
+            </form>
+            <button data-close-modal class="rounded border-2 border-gray-400 px-4 py-1 hover:bg-gray-200">Close</button>
+        </div>
+    </dialog>
+</body>
+
+<script>
+    const openButton = document.querySelector("[data-open-modal]")
+    const closeButton = document.querySelector("[data-close-modal]")
+    const modal = document.querySelector("[data-modal]")
+
+    openButton.addEventListener("click", () => { 
+        modal.showModal()
+    })
+
+    closeButton.addEventListener("click", () => {
+        modal.close()
+    })
+</script>
