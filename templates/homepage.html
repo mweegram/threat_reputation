@@ -1,6 +1,7 @@
 <head>
     <title>Threat Reputation</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@2.0.0" integrity="sha384-wS5l5IKJBvK6sPTKa2WZ1js3d947pvWXbPJ1OmWfEuxLgeHcEbjUUA5i9V5ZkpCw" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -8,20 +9,36 @@
         <div class="flex w-1/5 h-full items-center justify-center"><a href="/" class="text-white text-2xl">Threat Reputation Tracker</a></div>
         <div class="flex flex-row-reverse w-4/5 h-full items-center content-right gap-x-6 mr-8">
             <input class="w-1/4 h-3/5 rounded-md" type="search" name="search" id="search">
-            <button class="bg-red-600 rounded border-2 border-white text-white py-2 px-4 hover:bg-green-600" data-open-modal>+ Add New Threat</button>
+            <button class="bg-red-700 rounded border-2 border-white text-white py-2 px-4 hover:bg-green-600" data-open-modal>+ Add New Threat</button>
         </div>
     </div>
     <dialog data-modal class="w-2/5 h-96">
-        <div class="flex flex-col content-center flex-grow flex-nowrap items-center mt-0.5 h-fill gap-y-3">
+        <div class="flex flex-col content-center flex-grow flex-nowrap items-center mt-4 h-fill text-center">
             <h1 class="text-3xl font-semibold">Add New Threat</h1>
-            <form class="w-4/5 h-4/5">
-                <input class="block h-10 w-full border-2 border-gray-500" type="text" name="filename" id="filename">
-                <input type="text" name="filehash" id="filehash">
+            <form class="w-4/5 h-4/5" hx-post="/newthreat" hx-target="#popupbox" hx-swap="outerHTML">
+                <label class="block mt-4" for="filename">Malicious File's Name</label>
+                <input class="block h-10 w-full border-2 border-gray-500 text-lg" type="text" name="filename" id="filename">
+                <label class="block mt-4" for="filehash">Malicious File's SHA256 Hash</label>
+                <input class="block h-10 w-full border-2 border-gray-500 text-lg" type="text" name="filehash" id="filehash">
+                <button class="rounded border-2 border-green-700 px-10 py-1 hover:bg-gray-200 mt-4" type="submit">Submit</button>
             </form>
-            <button data-close-modal class="rounded border-2 border-gray-400 px-4 py-1 hover:bg-gray-200">Close</button>
+            <button data-close-modal class="rounded border-2 border-red-700 px-4 py-1 hover:bg-gray-200">Cancel</button>
         </div>
     </dialog>
 </body>
+
+<div id="content-box">
+    <div id="popupbox" class="hidden"></div>
+    <h1 class="text-center mt-4 text-3xl font-semibold">Statistics</h1>
+    <div class="flex m-auto w-2/6 h-28 mt-2 grow-0 justify-around content-center">
+        {{range .}}
+            <div class="flex-col border-2 border-blue-700 max-w-40 text-center content-center justify-center rounded">
+                <h1 class="font-bold">{{.Title}}</h1>
+                <p class="text-2xl">{{.Value}}</p>
+            </div>
+        {{end}}
+    </div>
+</div>
 
 <script>
     const openButton = document.querySelector("[data-open-modal]")
