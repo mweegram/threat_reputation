@@ -1,0 +1,30 @@
+<div class="flex m-auto w-4/6 h-3/5 gap-x-6 mt-28 text-lg">
+    <div class="bg-red-200 w-3/5 px-4 py-2">
+        <h1 class="text-center text-3xl font-semibold">Threat Information:</h1>
+        <div class="flex flex-col gap-y-8">
+        <p><span class="font-semibold break-all">Threat ID: </span>{{.ID}}</p>
+        <p><span class="font-semibold break-words">Filename: </span>{{.Filename}}</p>
+        <p><span class="font-semibold break-all">SHA256: </span>{{.Sha256}}</p>
+        <p><span class="font-semibold break-all">Submission Date: </span>{{.Submitted}}</p>
+    </div>
+    </div>
+    <div class="bg-blue-300 w-2/5 px-4 py-2">
+        <div class="flex flex-col justify-between h-full">
+            <h1 class="text-center text-3xl font-semibold">Comments:</h1>
+            <div id="comments" class="h-5/6 overflow-y-scroll">
+                {{if .Comments}}
+                    {{range .Comments}}
+                        <div class="flex justify-between mb-8"><p class="text-balance">{{.Text}}</p><p class="text-nowrap pr-2">{{.Date}}</p></div>
+                    {{end}}
+                {{else}}
+                    <h1 class="text-center text-lg">No Comments Found!</h1>
+                {{end}}
+            </div>
+            <div>
+                <form hx-post="/threat/{{.ID}}/comment" hx-target="#comments">
+                    <input class="w-full p-2 border-2 border-gray-200" type="text" name="comment" id="comment" placeholder="Enter New Comment" minlength="3" required>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -8,6 +8,24 @@ type Threat struct {
 	Submitted string
 }
 
+type DisplayThreat struct {
+	ID        int
+	Filename  string
+	Sha256    string
+	Comments  []Comment
+	Submitted string
+}
+
+type Homepage_Content struct {
+	Threats []Homepage_Threat
+	Stats   []Stats
+}
+
+type Homepage_Threat struct {
+	ID       int
+	Filename string
+}
+
 type Comment struct {
 	ID   int
 	Text string

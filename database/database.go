@@ -5,11 +5,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
 )
 
-func DatabaseConnect() *pgx.Conn {
+func DatabaseConnect() *pgxpool.Pool {
 	godotenv.Load(".env")
 
 	database_string, exists := os.LookupEnv("DB_STRING")
@@ -18,7 +18,7 @@ func DatabaseConnect() *pgx.Conn {
 		return nil
 	}
 
-	db, err := pgx.Connect(context.Background(), database_string)
+	db, err := pgxpool.New(context.Background(), database_string)
 	if err != nil {
 		log.Printf("Error: %v", err)
 		return nil
