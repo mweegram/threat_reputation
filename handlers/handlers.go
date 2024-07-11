@@ -129,3 +129,17 @@ func CreateCommentHandler(w http.ResponseWriter, r *http.Request) {
 	data := logic.Get_Comments(threat_id)
 	temp.Execute(w, data)
 }
+
+func SearchHandler(w http.ResponseWriter, r *http.Request) {
+	search := r.FormValue("search")
+
+	results, id := logic.Search(search)
+	fmt.Printf("%v\n\n\n%d", results, id)
+	if id != -1 {
+		redirect_path := fmt.Sprintf("/threat/%d", id)
+		http.Redirect(w, r, redirect_path, http.StatusSeeOther)
+	}
+
+	temp := template.Must(template.ParseFiles("./templates/search.html"))
+	temp.Execute(w, results)
+}

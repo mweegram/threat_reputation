@@ -152,3 +152,29 @@ func HomepageStats() []Stats {
 
 	return results
 }
+
+func Search(search_term string) ([]Search_Result, int) {
+	result := make([]Search_Result, 0)
+	id := -1
+
+	if len(search_term) == 64 {
+		err := DB_INSTANCE.DB.QueryRow(context.Background(), "SELECT id FROM threats WHERE sha256 = $1", search_term).Scan(&id)
+		fmt.Printf("%v", err)
+		if err == nil {
+			return result, id
+		}
+	}
+
+	rows, err := DB_INSTANCE.DB.Query(context.Background(), "SELECT id,filename,sha256 FROM threats WHERE LOWER(filename) LIKE '%' || LOWER($1) || '%'", search_term)
+	if err != nil {
+		fmt.Printf("%v", err)
+		return result, id
+	}
+
+	results, err := pgx.CollectRows(rows, pgx.RowToStructByName[Search_Result])
+	if err != nil {
+		return result, id
+	}
+
+	return results, id
+}

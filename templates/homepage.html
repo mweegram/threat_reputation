@@ -8,7 +8,9 @@
     <div class="flex w-full h-16 bg-green-700">
         <div class="flex w-1/5 h-full items-center justify-center"><a href="/" class="text-white text-2xl">Threat Reputation Tracker</a></div>
         <div class="flex flex-row-reverse w-4/5 h-full items-center content-right gap-x-6 mr-8">
-            <input class="w-1/4 h-3/5 rounded-md" type="search" name="search" id="search">
+            <form class="flex items-center h-full m-0 w-2/6"  hx-get="/search" hx-target="#content-box">
+                <input class="h-4/6 w-full rounded-md pl-2" type="search" name="search"   placeholder="Search Threats (SHA256 or File Name)">
+            </form>
             <button class="bg-red-700 rounded border-2 border-white text-white py-2 px-4 hover:bg-green-600" data-open-modal>+ Add New Threat</button>
         </div>
     </div>
@@ -29,7 +31,7 @@
 
 <div id="content-box">
     <div id="popupbox" class="hidden"></div>
-    <h1 class="text-center mt-4 text-3xl font-semibold">Statistics</h1>
+    <h1 class="text-center mt-4 mb-4 text-3xl font-semibold">Statistics</h1>
     <div class="flex m-auto w-2/6 h-28 mt-2 grow-0 justify-around content-center">
         {{range .Stats}}
             <div class="flex-col border-2 border-blue-700 max-w-40 text-center content-center justify-center rounded">
@@ -39,12 +41,14 @@
         {{end}}
     </div>
 
-    <h1 class="text-center mt-4 text-3xl font-semibold">Recent Threats</h1>
+    <h1 class="text-center mt-12 mb-4 text-3xl font-semibold">Recent Threats</h1>
     <div>
         {{if .Threats}}
+        <div class="flex flex-col m-auto w-1/5">
             {{range .Threats}}
-                <div><p hx-get="/threat/{{.ID}}" hx-target="#content-box">{{.Filename}}</p></div>
+                <div><p class="text-center text-blue-700 hover:text-purple-700 text-lg" hx-get="/threat/{{.ID}}" hx-target="#content-box">{{.Filename}}</p></div>
             {{end}}
+        </div>
         {{else}}
         <h2 class="text-center mt-4 text-xl font-semibold">No Threats Found!</h2>
         {{end}}
