@@ -47,3 +47,9 @@ type Stats struct {
 	Title string
 	Value int
 }
+
+type Search_Result struct {
+	ID       int
+	Filename string
+	Sha256   string
+}
