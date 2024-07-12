@@ -1,7 +1,13 @@
-<div class="w-3/5 h-2/5 m-auto border-4 border-blue-700 mt-12 rounded p-4 text-center">
+<div id="popupbox" class="hidden"></div>
+<div class="w-3/5 h-2/5 m-auto border-2 border-blue-700 mt-12 rounded p-4 text-center">
     <h1 class="text-center text-3xl font-bold">Search Results</h1>
     {{if .}}
-        #TODO
+        <table class="w-full text-left" >
+            <tr class="border-b-2 border-black"><th class="w-14 border-r-2 border-black">ID</th><th class="w-2/6 border-r-2 border-black">Filename</th><th>SHA256</th></tr>
+        {{range .}}
+            <tr hx-get="/threat/{{.ID}}" hx-target="#content-box" class="mt-12 border-b-2 border-x-2 border-black hover:bg-purple-200" ><td>{{.ID}}</td><td>{{.Filename}}</td><td>{{.Sha256}}</td></tr>
+        {{end}}
+        </table>
     {{else}}
         <h2>No Results Found!</h2>
     {{end}}

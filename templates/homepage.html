@@ -41,12 +41,13 @@
         {{end}}
     </div>
 
-    <h1 class="text-center mt-12 mb-4 text-3xl font-semibold">Recent Threats</h1>
-    <div>
+    
+    <div class="rounded border-2 border-pink-400 mt-12 w-1/4 mx-auto">
+        <h1 class="text-center mb-4 text-3xl font-semibold">Recent Threats</h1>
         {{if .Threats}}
-        <div class="flex flex-col m-auto w-1/5">
+        <div class="flex flex-col m-auto gap-y-4 px-4">
             {{range .Threats}}
-                <div><p class="text-center text-blue-700 hover:text-purple-700 text-lg" hx-get="/threat/{{.ID}}" hx-target="#content-box">{{.Filename}}</p></div>
+                <div><p class="text-center text-blue-700 hover:text-purple-700 text-lg break-words" hx-get="/threat/{{.ID}}" hx-target="#content-box">{{.Filename}}</p></div>
             {{end}}
         </div>
         {{else}}
